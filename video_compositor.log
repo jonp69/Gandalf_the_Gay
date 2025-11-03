@@ -1,0 +1,63 @@
+2025-11-03 17:06:24,410 - __main__ - INFO - Output directories created: output
+2025-11-03 17:06:47,591 - src.band_processor - ERROR - Failed to load upscaler: No module named 'torchvision.transforms.functional_tensor'
+2025-11-03 17:06:47,592 - src.band_processor - WARNING - Falling back to basic interpolation upscaling
+2025-11-03 17:06:47,737 - src.mask_generator - WARNING - SAM model not found. Please download sam_vit_h_4b8939.pth to models/
+2025-11-03 17:06:47,737 - src.mask_generator - WARNING - Download from: https://github.com/facebookresearch/segment-anything
+2025-11-03 17:06:47,738 - src.mask_generator - ERROR - Failed to load segmentation model: SAM model not found
+2025-11-03 17:06:47,738 - src.mask_generator - WARNING - Falling back to basic color-based segmentation
+2025-11-03 17:06:47,813 - src.mask_generator - INFO - Loaded Haar cascade face detector
+2025-11-03 17:06:47,814 - __main__ - INFO - Video Meme Compositor initialized
+2025-11-03 17:06:47,825 - __main__ - INFO - Configuration loaded from: config.yaml
+2025-11-03 17:06:47,827 - __main__ - ERROR - Missing required input files: ['videos\\widescreen_source.mp4', 'videos\\dvd_source.mp4', 'assets\\faces\\El_xox_sillyface.jpg']
+2025-11-03 17:06:47,830 - __main__ - ERROR - Please check your resources.txt or config.yaml file
+2025-11-03 17:06:47,858 - __main__ - ERROR - TIP: You can place your files anywhere and specify paths in resources.txt
+2025-11-03 18:00:08,418 - __main__ - INFO - Output directories created: output
+2025-11-03 18:00:26,071 - src.band_processor - ERROR - Failed to load upscaler: No module named 'torchvision.transforms.functional_tensor'
+2025-11-03 18:00:26,071 - src.band_processor - WARNING - Falling back to basic interpolation upscaling
+2025-11-03 18:00:26,168 - src.mask_generator - WARNING - SAM model not found. Please download sam_vit_h_4b8939.pth to models/
+2025-11-03 18:00:26,169 - src.mask_generator - WARNING - Download from: https://github.com/facebookresearch/segment-anything
+2025-11-03 18:00:26,169 - src.mask_generator - ERROR - Failed to load segmentation model: SAM model not found
+2025-11-03 18:00:26,169 - src.mask_generator - WARNING - Falling back to basic color-based segmentation
+2025-11-03 18:00:26,219 - src.mask_generator - INFO - Loaded Haar cascade face detector
+2025-11-03 18:00:26,219 - __main__ - INFO - Video Meme Compositor initialized
+2025-11-03 18:00:26,219 - __main__ - INFO - Configuration loaded from: config.yaml
+2025-11-03 18:00:26,220 - __main__ - ERROR - Missing required input files: ['videos\\widescreen_source.mp4', 'videos\\dvd_source.mp4', 'assets\\faces\\El_xox_sillyface.jpg']
+2025-11-03 18:00:26,220 - __main__ - ERROR - Please check your resources.txt or config.yaml file
+2025-11-03 18:00:26,221 - __main__ - ERROR - TIP: You can place your files anywhere and specify paths in resources.txt
+2025-11-03 18:44:30,196 - __main__ - INFO - Output directories created: output
+2025-11-03 18:44:50,368 - src.band_processor - ERROR - Failed to load upscaler: No module named 'torchvision.transforms.functional_tensor'
+2025-11-03 18:44:50,368 - src.band_processor - WARNING - Falling back to basic interpolation upscaling
+2025-11-03 18:44:50,487 - src.mask_generator - WARNING - SAM model not found. Please download sam_vit_h_4b8939.pth to models/
+2025-11-03 18:44:50,488 - src.mask_generator - WARNING - Download from: https://github.com/facebookresearch/segment-anything
+2025-11-03 18:44:50,489 - src.mask_generator - ERROR - Failed to load segmentation model: SAM model not found
+2025-11-03 18:44:50,490 - src.mask_generator - WARNING - Falling back to basic color-based segmentation
+2025-11-03 18:44:50,523 - src.mask_generator - INFO - Loaded Haar cascade face detector
+2025-11-03 18:44:50,523 - __main__ - INFO - Video Meme Compositor initialized
+2025-11-03 18:44:50,524 - __main__ - INFO - Configuration loaded from: config.yaml
+2025-11-03 18:44:50,525 - __main__ - ERROR - Missing required input files: ['videos\\widescreen_source.mp4', 'videos\\dvd_source.mp4', 'assets\\faces\\El_xox_sillyface.jpg']
+2025-11-03 18:44:50,525 - __main__ - ERROR - Please check your resources.txt or config.yaml file
+2025-11-03 18:44:50,525 - __main__ - ERROR - TIP: You can place your files anywhere and specify paths in resources.txt
+2025-11-03 22:07:06,446 - __main__ - INFO - Output directories created: output
+2025-11-03 22:07:06,797 - src.band_processor - ERROR - Failed to load upscaler: operator torchvision::nms does not exist
+2025-11-03 22:07:06,801 - src.band_processor - WARNING - Falling back to basic interpolation upscaling
+2025-11-03 22:07:06,944 - src.mask_generator - ERROR - Failed to load segmentation model: partially initialized module 'torchvision' has no attribute 'extension' (most likely due to a circular import)
+2025-11-03 22:07:06,945 - src.mask_generator - WARNING - Falling back to basic color-based segmentation
+2025-11-03 22:07:07,024 - src.mask_generator - INFO - Loaded Haar cascade face detector
+2025-11-03 22:07:07,025 - __main__ - INFO - Video Meme Compositor initialized
+2025-11-03 22:07:07,026 - __main__ - INFO - Configuration loaded from: config.yaml
+2025-11-03 22:07:07,026 - __main__ - ERROR - Missing required input files: ['videos\\widescreen_source.mp4', 'videos\\dvd_source.mp4', 'assets\\faces\\El_xox_sillyface.jpg']
+2025-11-03 22:07:07,027 - __main__ - ERROR - Please check your resources.txt or config.yaml file
+2025-11-03 22:07:07,027 - __main__ - ERROR - TIP: You can place your files anywhere and specify paths in resources.txt
+2025-11-03 22:43:47,381 - __main__ - INFO - Output directories created: output
+2025-11-03 22:44:13,730 - src.band_processor - ERROR - Failed to load upscaler: No module named 'torchvision.transforms.functional_tensor'
+2025-11-03 22:44:13,731 - src.band_processor - WARNING - Falling back to basic interpolation upscaling
+2025-11-03 22:44:13,787 - src.mask_generator - WARNING - SAM model not found. Please download sam_vit_h_4b8939.pth to models/
+2025-11-03 22:44:13,797 - src.mask_generator - WARNING - Download from: https://github.com/facebookresearch/segment-anything
+2025-11-03 22:44:13,798 - src.mask_generator - ERROR - Failed to load segmentation model: SAM model not found
+2025-11-03 22:44:13,799 - src.mask_generator - WARNING - Falling back to basic color-based segmentation
+2025-11-03 22:44:13,881 - src.mask_generator - INFO - Loaded Haar cascade face detector
+2025-11-03 22:44:13,881 - __main__ - INFO - Video Meme Compositor initialized
+2025-11-03 22:44:13,882 - __main__ - INFO - Configuration loaded from: config.yaml
+2025-11-03 22:44:13,883 - __main__ - ERROR - Missing required input files: ['videos\\widescreen_source.mp4', 'videos\\dvd_source.mp4', 'assets\\faces\\El_xox_sillyface.jpg']
+2025-11-03 22:44:13,883 - __main__ - ERROR - Please check your resources.txt or config.yaml file
+2025-11-03 22:44:13,884 - __main__ - ERROR - TIP: You can place your files anywhere and specify paths in resources.txt

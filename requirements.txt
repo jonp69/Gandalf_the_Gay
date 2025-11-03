@@ -1,17 +1,24 @@
 # Core Python dependencies for Video Meme Compositor
-# Computer Vision and Image Processing
-opencv-python>=4.8.0
-Pillow>=10.0.0
+# 
+# IMPORTANT: Installation order matters for CUDA and xformers!
+# Install torch with CUDA first, then xformers
+
+# Basic dependencies
 numpy>=1.24.0
+Pillow>=10.0.0
+
+# Computer Vision and Image Processing (after torch for CUDA compatibility)
+opencv-python>=4.8.0
 scikit-image>=0.21.0
 
 # Video Processing
 imageio>=2.31.0
 imageio-ffmpeg>=0.4.9
 
+# Note: torch, torchvision, torchaudio, and xformers are installed separately 
+# via setup.bat with CUDA support for better performance
+
 # AI/ML Models - triggers Python 3.11 requirement per venv directives
-torch>=2.0.0
-torchvision>=0.15.0
 transformers>=4.30.0
 diffusers>=0.21.0
 accelerate>=0.21.0
@@ -25,8 +32,7 @@ realesrgan>=0.3.0
 basicsr>=1.4.2
 gfpgan>=1.3.8
 
-# Stable Diffusion / Inpainting
-xformers>=0.0.20
+# Stable Diffusion / Inpainting  
 controlnet-aux>=0.0.6
 
 # Optical Flow and Tracking
