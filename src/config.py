@@ -6,11 +6,77 @@ according to the specifications in RUNBOOK.md and context.md.
 """
 
 import os
+import re
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Union
 import yaml
 import configparser
 from dataclasses import dataclass, field
+
+
+def parse_smart_timestamp(timestamp_str: str) -> float:
+    """
+    Smart timestamp parser that handles multiple formats:
+    
+    Supported formats:
+    - Seconds only: "45.5", "123", "45"
+    - MM:SS: "1:23.5", "2:15", "0:45.2"  
+    - HH:MM:SS: "1:23:45.5", "0:02:15", "2:01:30"
+    - Mixed: "1h23m45.5s", "2m15s", "45s"
+    
+    Args:
+        timestamp_str: Timestamp string in any supported format
+        
+    Returns:
+        Timestamp in seconds as float
+    """
+    timestamp_str = str(timestamp_str).strip()
+    
+    # Handle pure numeric values (seconds)
+    try:
+        return float(timestamp_str)
+    except ValueError:
+        pass
+    
+    # Handle HH:MM:SS or MM:SS formats
+    if ':' in timestamp_str:
+        parts = timestamp_str.split(':')
+        
+        if len(parts) == 2:  # MM:SS
+            minutes = float(parts[0])
+            seconds = float(parts[1])
+            return minutes * 60 + seconds
+            
+        elif len(parts) == 3:  # HH:MM:SS
+            hours = float(parts[0])
+            minutes = float(parts[1])
+            seconds = float(parts[2])
+            return hours * 3600 + minutes * 60 + seconds
+    
+    # Handle text formats like "1h23m45.5s", "2m15s", "45s"
+    # Extract hours, minutes, seconds using regex
+    hour_match = re.search(r'(\d+(?:\.\d+)?)h', timestamp_str.lower())
+    min_match = re.search(r'(\d+(?:\.\d+)?)m', timestamp_str.lower())
+    sec_match = re.search(r'(\d+(?:\.\d+)?)s', timestamp_str.lower())
+    
+    total_seconds = 0.0
+    
+    if hour_match:
+        total_seconds += float(hour_match.group(1)) * 3600
+    if min_match:
+        total_seconds += float(min_match.group(1)) * 60
+    if sec_match:
+        total_seconds += float(sec_match.group(1))
+    
+    if total_seconds > 0:
+        return total_seconds
+    
+    # If nothing worked, raise an error with helpful message
+    raise ValueError(
+        f"Could not parse timestamp '{timestamp_str}'. "
+        f"Supported formats: '45.5' (seconds), '1:23.5' (MM:SS), "
+        f"'1:23:45' (HH:MM:SS), '1h23m45s' (text format)"
+    )
 
 
 @dataclass
@@ -33,6 +99,10 @@ class Config:
     duration: float = 10.0   # seconds
     output_width: int = 3840
     output_height: int = 2160
+    
+    # Reference frame timestamp hints for faster sync
+    widescreen_reference_time: Optional[float] = None  # seconds
+    dvd_reference_time: Optional[float] = None  # seconds
     
     # Band upscaling (from manual measurement: 540 -> 2160)
     band_upscale_factor: int = 4
@@ -195,6 +265,19 @@ def load_config_from_resources(resources_path: str, config_path: str) -> Config:
         ref_section = resources['REFERENCE_FRAMES']
         if 'reference_frame' in ref_section:
             config_dict['reference_frame'] = ref_section['reference_frame']
+        # Add timestamp hints for faster sync (with smart parsing)
+        if 'widescreen_reference_time' in ref_section:
+            try:
+                config_dict['widescreen_reference_time'] = parse_smart_timestamp(ref_section['widescreen_reference_time'])
+                print(f"Parsed widescreen timestamp: {ref_section['widescreen_reference_time']} → {config_dict['widescreen_reference_time']:.1f}s")
+            except ValueError as e:
+                print(f"Warning: Could not parse widescreen_reference_time '{ref_section['widescreen_reference_time']}': {e}")
+        if 'dvd_reference_time' in ref_section:
+            try:
+                config_dict['dvd_reference_time'] = parse_smart_timestamp(ref_section['dvd_reference_time'])
+                print(f"Parsed DVD timestamp: {ref_section['dvd_reference_time']} → {config_dict['dvd_reference_time']:.1f}s")
+            except ValueError as e:
+                print(f"Warning: Could not parse dvd_reference_time '{ref_section['dvd_reference_time']}': {e}")
     
     # Output directories
     if 'OUTPUT' in resources:

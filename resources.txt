@@ -36,8 +36,32 @@ face_asset = assets/faces/El_xox_sillyface.jpg
 # - Any image that helps establish timing alignment
 reference_frame = reference/sync_frame.jpg
 
+# OPTIONAL: Specify approximate timestamps for faster sync
+# Smart timestamp formats supported - use whatever is most convenient:
+#
+# SECONDS ONLY:
+# widescreen_reference_time = 45.5      # 45.5 seconds
+# dvd_reference_time = 42               # 42 seconds
+#
+# MINUTES:SECONDS:
+# widescreen_reference_time = 1:23.5    # 1 minute 23.5 seconds (= 83.5s)
+# dvd_reference_time = 2:15             # 2 minutes 15 seconds (= 135s)
+#
+# HOURS:MINUTES:SECONDS:
+# widescreen_reference_time = 1:02:30   # 1 hour 2 minutes 30 seconds
+# dvd_reference_time = 0:05:45.5        # 5 minutes 45.5 seconds
+#
+# TEXT FORMAT:
+# widescreen_reference_time = 1h23m45s  # 1 hour 23 minutes 45 seconds
+# dvd_reference_time = 2m15s            # 2 minutes 15 seconds
+#
+# All formats create a 3-second search window around the timestamp
+# instead of searching the entire video. Much faster and more accurate!
+
 # Optional: Multiple reference frames for better sync
 # reference_frame_2 = reference/backup_sync.jpg
+# widescreen_reference_time_2 = 120.0
+# dvd_reference_time_2 = 118.5
 
 [MODELS]
 # AI model files (optional - will be auto-downloaded if not found)

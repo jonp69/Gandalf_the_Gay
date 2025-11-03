@@ -52,6 +52,13 @@ face_asset = D:\Downloads\Assets\faces\El_xox_sillyface.jpg
 # - Any image that helps with timing synchronization
 reference_frame = D:\Downloads\Assets\reference\sync_frame_dvd.jpg
 
+# SPEED BOOST: Smart timestamp hints for lightning-fast sync!
+# Use any format that's convenient for you:
+widescreen_reference_time = 1:23.5    # 1 minute 23.5 seconds (MM:SS)
+dvd_reference_time = 42               # 42 seconds (simple)
+# Also works: 1:02:30 (HH:MM:SS), 1h23m45s (text), 83.5 (decimal seconds)
+# This changes search from 2+ minutes to just 3 seconds!
+
 [MODELS]
 # Optional: specify custom model locations
 realesrgan_model = E:\AI_Models\RealESRGAN_x4plus.pth

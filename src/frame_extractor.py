@@ -136,8 +136,16 @@ class FrameExtractor:
         logger.info("Reference frame can be from any source - DVD, widescreen, or external")
         
         # Try to match reference frame against both video sources
-        widescreen_match_time = self._find_best_match_in_video(ref_frame, self.widescreen_reader, "widescreen")
-        dvd_match_time = self._find_best_match_in_video(ref_frame, self.dvd_reader, "DVD")
+        # Use timestamp hints if available for much faster search
+        widescreen_hint = getattr(self.config, 'widescreen_reference_time', None)
+        dvd_hint = getattr(self.config, 'dvd_reference_time', None)
+        
+        widescreen_match_time = self._find_best_match_in_video(
+            ref_frame, self.widescreen_reader, "widescreen", widescreen_hint
+        )
+        dvd_match_time = self._find_best_match_in_video(
+            ref_frame, self.dvd_reader, "DVD", dvd_hint
+        )
         
         # Use the best match from either source
         if widescreen_match_time is not None and dvd_match_time is not None:
@@ -155,7 +163,7 @@ class FrameExtractor:
             logger.warning("No good matches found for reference frame, using default start time")
             return self.config.start_time
             
-    def _find_best_match_in_video(self, ref_frame: np.ndarray, video_reader, source_name: str) -> Optional[float]:
+    def _find_best_match_in_video(self, ref_frame: np.ndarray, video_reader, source_name: str, timestamp_hint: Optional[float] = None) -> Optional[float]:
         """
         Find the best matching frame in a video source.
         
@@ -163,19 +171,21 @@ class FrameExtractor:
             ref_frame: Reference frame to match
             video_reader: Video reader object
             source_name: Name for logging
+            timestamp_hint: Optional timestamp hint for faster search
             
         Returns:
             Timestamp of best match, or None if no good match found
         """
-        logger.info(f"Searching for reference frame match in {source_name} source")
+        if timestamp_hint is not None:
+            logger.info(f"Searching for reference frame match in {source_name} source around {timestamp_hint:.2f}s")
+        else:
+            logger.info(f"Searching for reference frame match in {source_name} source (full search)")
         
         try:
             video_meta = video_reader.get_meta_data()
             fps = video_meta.get('fps', 30.0)
             duration = video_meta.get('duration', 60.0)
             
-            # Sample frames every 0.5 seconds to find the best match
-            sample_interval = 0.5
             best_match_score = 0
             best_match_time = None
             
@@ -183,7 +193,22 @@ class FrameExtractor:
             ref_gray = cv2.cvtColor(ref_frame, cv2.COLOR_BGR2GRAY)
             ref_resized = cv2.resize(ref_gray, (320, 240))  # Small size for fast matching
             
-            for t in np.arange(0, min(duration, 120), sample_interval):  # Search first 2 minutes
+            # Determine search range based on timestamp hint
+            if timestamp_hint is not None:
+                # Search in a 3-second window around the hint (much faster!)
+                search_window = 1.5  # seconds on each side
+                start_time = max(0, timestamp_hint - search_window)
+                end_time = min(duration, timestamp_hint + search_window)
+                sample_interval = 0.1  # Higher precision since we have a small window
+                logger.info(f"Using timestamp hint: searching {start_time:.1f}s to {end_time:.1f}s")
+            else:
+                # Full search (slower but comprehensive)
+                start_time = 0
+                end_time = min(duration, 120)  # Search first 2 minutes
+                sample_interval = 0.5  # Lower precision for full search
+                logger.info(f"No timestamp hint: searching full range {start_time:.1f}s to {end_time:.1f}s")
+            
+            for t in np.arange(start_time, end_time, sample_interval):
                 try:
                     frame_idx = int(t * fps)
                     if frame_idx >= len(video_reader):

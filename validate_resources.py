@@ -9,6 +9,55 @@ specified files exist and are accessible.
 import configparser
 from pathlib import Path
 import sys
+import re
+
+
+def parse_smart_timestamp(timestamp_str: str) -> float:
+    """
+    Smart timestamp parser - same logic as in config.py
+    """
+    timestamp_str = str(timestamp_str).strip()
+    
+    # Handle pure numeric values (seconds)
+    try:
+        return float(timestamp_str)
+    except ValueError:
+        pass
+    
+    # Handle HH:MM:SS or MM:SS formats
+    if ':' in timestamp_str:
+        parts = timestamp_str.split(':')
+        
+        if len(parts) == 2:  # MM:SS
+            minutes = float(parts[0])
+            seconds = float(parts[1])
+            return minutes * 60 + seconds
+            
+        elif len(parts) == 3:  # HH:MM:SS
+            hours = float(parts[0])
+            minutes = float(parts[1])
+            seconds = float(parts[2])
+            return hours * 3600 + minutes * 60 + seconds
+    
+    # Handle text formats like "1h23m45.5s", "2m15s", "45s"
+    hour_match = re.search(r'(\d+(?:\.\d+)?)h', timestamp_str.lower())
+    min_match = re.search(r'(\d+(?:\.\d+)?)m', timestamp_str.lower())
+    sec_match = re.search(r'(\d+(?:\.\d+)?)s', timestamp_str.lower())
+    
+    total_seconds = 0.0
+    
+    if hour_match:
+        total_seconds += float(hour_match.group(1)) * 3600
+    if min_match:
+        total_seconds += float(min_match.group(1)) * 60
+    if sec_match:
+        total_seconds += float(sec_match.group(1))
+    
+    if total_seconds > 0:
+        return total_seconds
+    
+    raise ValueError(f"Could not parse timestamp '{timestamp_str}'")
+
 
 def validate_resources():
     """Validate all resources specified in resources.txt"""
@@ -99,6 +148,36 @@ def validate_resources():
                 if path.exists():
                     print(f"  ✅ Reference frame: {path}")
                     print("     (Can be from DVD, widescreen, or any external source)")
+                    
+                    # Check for timestamp hints with smart parsing
+                    has_hints = False
+                    if 'widescreen_reference_time' in ref_section:
+                        time_str = ref_section['widescreen_reference_time']
+                        try:
+                            time_seconds = parse_smart_timestamp(time_str)
+                            print(f"  🎯 Widescreen timestamp: {time_str} → {time_seconds:.1f}s")
+                            has_hints = True
+                        except ValueError:
+                            print(f"  ❌ Invalid widescreen timestamp format: {time_str}")
+                            all_valid = False
+                    if 'dvd_reference_time' in ref_section:
+                        time_str = ref_section['dvd_reference_time']
+                        try:
+                            time_seconds = parse_smart_timestamp(time_str)
+                            print(f"  🎯 DVD timestamp: {time_str} → {time_seconds:.1f}s")
+                            has_hints = True
+                        except ValueError:
+                            print(f"  ❌ Invalid DVD timestamp format: {time_str}")
+                            all_valid = False
+                        
+                    if has_hints:
+                        print("     ⚡ Fast sync mode enabled! (3-second search window)")
+                    else:
+                        print("     💡 TIP: Add timestamp hints for much faster sync:")
+                        print("         Supported formats:")
+                        print("         widescreen_reference_time = 45.5      # seconds")
+                        print("         dvd_reference_time = 1:23.5           # MM:SS")
+                        print("         Or: 1:02:30 (HH:MM:SS) or 1h23m45s (text)")
                 else:
                     print(f"  ⚠️  Reference frame NOT FOUND (optional): {path}")
             else:
@@ -183,6 +262,12 @@ face_asset = assets\\faces\\my_face.jpg
 [REFERENCE_FRAMES]
 # Reference frame can be from ANY source (DVD, widescreen, or external)
 reference_frame = reference\\sync_frame.jpg
+
+# OPTIONAL: Timestamp hints for MUCH faster sync (highly recommended!)
+# Smart timestamp formats - use whatever is most convenient:
+widescreen_reference_time = 1:23.5    # 1 min 23.5 sec (MM:SS format)
+dvd_reference_time = 42               # 42 seconds (simple format)
+# Also supported: 1:02:30 (HH:MM:SS) or 1h23m45s (text format)
 
 [OUTPUT]
 output_directory = output

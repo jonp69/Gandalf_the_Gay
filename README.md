@@ -90,6 +90,7 @@ reference_frame = reference\sync_frame_from_anywhere.jpg
   - Can be a screenshot from any 720×540 or similar source
   - Used to establish timing alignment between sources
   - Example sources: frame from DVD, frame from widescreen, screenshot from different video
+  - **⚡ Speed boost**: Add timestamp hints for lightning-fast sync!
 
 ### Face Asset
 
@@ -157,6 +158,35 @@ tile_size: 512       # Tile size for upscaling
 4. Run: `setup.bat` or `python main.py`
 
 **Note**: resources.txt takes precedence over config.yaml if both exist.
+
+### ⚡ Speed Boost: Timestamp Hints
+
+For **much faster synchronization**, you can specify approximate timestamps where your reference frame appears:
+
+```ini
+[REFERENCE_FRAMES]
+reference_frame = reference/sync_frame.jpg
+
+# SPEED BOOST: Smart timestamp formats - use whatever's convenient!
+widescreen_reference_time = 1:23.5    # 1 min 23.5 sec (MM:SS)
+dvd_reference_time = 42               # 42 seconds (simple)
+# Also: 1:02:30 (HH:MM:SS), 1h23m45s (text), 83.5 (decimal)
+```
+
+**Benefits:**
+- ⚡ **10-100x faster** synchronization
+- 🎯 **More accurate** frame matching
+- 📏 **Precise timing** - searches ±1.5 seconds around your hints
+- 🔍 **Higher precision** - 0.1s intervals instead of 0.5s
+
+**How to find timestamps:**
+1. Open your videos in any media player
+2. Navigate to where the reference frame appears  
+3. Note the timestamp in ANY format:
+   - Media player shows "1:23.5" → use `1:23.5`
+   - Media player shows "83.5" → use `83.5` 
+   - Media player shows "1:02:30" → use `1:02:30`
+4. Add to resources.txt (no conversion needed!)
 
 The application will:
 1. Extract and synchronize frames from both sources

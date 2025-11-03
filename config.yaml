@@ -20,6 +20,11 @@ duration: 10.0       # Duration to process in seconds
 output_width: 3840   # Final output width
 output_height: 2160  # Final output height
 
+# Reference frame timestamp hints (optional, for faster sync)
+# If you know approximately when your reference frame appears in each video:
+# widescreen_reference_time: 45.5  # Reference frame at ~45.5 seconds in widescreen
+# dvd_reference_time: 42.0          # Reference frame at ~42.0 seconds in DVD
+
 # Band processing (from manual measurement)
 band_upscale_factor: 4           # Integer scale factor for DVD bands
 measured_center_sample: [960, 540]  # Manual measurement results
