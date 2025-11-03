@@ -1,0 +1,57 @@
+# Video Meme Compositor - Resource File
+# 
+# This file specifies the locations of all input assets for the compositor.
+# You can place your files anywhere and use any names - just update the paths below.
+#
+# All paths can be:
+# - Absolute paths: C:\Users\jonp6\Videos\my_video.mp4
+# - Relative paths: videos\source1.mp4
+# - Different folders: assets\faces\custom_face.png
+#
+
+[VIDEO_SOURCES]
+# Primary high-detail source (any resolution, e.g., 3840×1610)
+widescreen_source = videos/widescreen_source.mp4
+
+# DVD source with extra vertical bands (720×540 or similar aspect)
+dvd_source = videos/dvd_source.mp4
+
+# Optional: 4:3 source for cross-validation (any 4:3 resolution)
+aligned_4x3_source = videos/aligned_4x3.mp4
+
+[FACE_ASSETS]
+# Face image for insertion (any image format: jpg, png, bmp, etc.)
+face_asset = assets/faces/El_xox_sillyface.jpg
+
+# Optional: Additional face assets for multi-face insertion
+# face_asset_2 = assets/faces/another_face.png
+# face_asset_3 = assets/faces/third_face.jpg
+
+[REFERENCE_FRAMES]
+# Reference frame for synchronization timing (can be from ANY source)
+# This can be:
+# - A frame extracted from either video source
+# - A frame from a completely different video
+# - A screenshot or image from any 720×540 or similar source
+# - Any image that helps establish timing alignment
+reference_frame = reference/sync_frame.jpg
+
+# Optional: Multiple reference frames for better sync
+# reference_frame_2 = reference/backup_sync.jpg
+
+[MODELS]
+# AI model files (optional - will be auto-downloaded if not found)
+# You can specify custom paths if you have the models elsewhere
+realesrgan_model = models/RealESRGAN_x4plus.pth
+sam_model = models/sam_vit_h_4b8939.pth
+face_detector_prototxt = models/deploy.prototxt  
+face_detector_model = models/res10_300x300_ssd_iter_140000.caffemodel
+
+[OUTPUT]
+# Output directory (will be created if it doesn't exist)
+output_directory = output
+debug_directory = debug
+
+# Custom output filenames
+output_video_name = my_gandalf_meme.mp4
+output_gif_name = my_gandalf_meme.gif

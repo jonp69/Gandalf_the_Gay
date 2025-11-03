@@ -1,0 +1,44 @@
+# Video Meme Compositor Configuration
+# Edit these paths to match your input files
+
+# Required input files
+widescreen_source: "path/to/widescreen_video.mp4"  # High-detail source (e.g., 3840x1610)
+dvd_source: "path/to/dvd_video.mp4"               # DVD source (720x540) with extra bands
+face_asset: "El_xox_sillyface.jpg"                # Face insertion asset
+
+# Optional inputs
+reference_frame: null                              # External reference frame for sync
+aligned_4x3_source: null                          # 4:3 source for cross-checks
+
+# Output settings
+output_dir: "output"
+debug_dir: "debug"
+
+# Processing parameters
+start_time: 0.0      # Start time in seconds
+duration: 10.0       # Duration to process in seconds
+output_width: 3840   # Final output width
+output_height: 2160  # Final output height
+
+# Band processing (from manual measurement)
+band_upscale_factor: 4           # Integer scale factor for DVD bands
+measured_center_sample: [960, 540]  # Manual measurement results
+
+# AI model settings
+upscaler_model: "realesrgan"     # Real-ESRGAN for band upscaling
+segmentation_model: "sam"        # Segment Anything Model
+inpainting_model: "stable-diffusion"  # For background generation
+
+# Performance settings
+use_fp16: true       # Use FP16 for VRAM efficiency
+tile_size: 512       # Tile size for upscaling (VRAM constraint)
+device: "cuda"       # "cuda" or "cpu"
+max_vram_gb: 4.0     # GTX 1050 Mobile constraint
+
+# Mask settings
+mask_feather_radius: 12  # Feathering radius in pixels (8-20)
+
+# Export settings
+mp4_crf: 20          # H.264 quality (18-22 recommended)
+gif_fps: 15          # GIF frame rate
+gif_max_width: 800   # GIF width limit
