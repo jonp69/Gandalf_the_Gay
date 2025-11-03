@@ -1,0 +1,47 @@
+# Core Python dependencies for Video Meme Compositor
+# Computer Vision and Image Processing
+opencv-python>=4.8.0
+Pillow>=10.0.0
+numpy>=1.24.0
+scikit-image>=0.21.0
+
+# Video Processing
+imageio>=2.31.0
+imageio-ffmpeg>=0.4.9
+
+# AI/ML Models - triggers Python 3.11 requirement per venv directives
+torch>=2.0.0
+torchvision>=0.15.0
+transformers>=4.30.0
+diffusers>=0.21.0
+accelerate>=0.21.0
+
+# Segmentation Models
+segment-anything @ git+https://github.com/facebookresearch/segment-anything.git
+ultralytics>=8.0.0
+
+# Upscaling and Restoration
+realesrgan>=0.3.0
+basicsr>=1.4.2
+gfpgan>=1.3.8
+
+# Stable Diffusion / Inpainting
+xformers>=0.0.20
+controlnet-aux>=0.0.6
+
+# Optical Flow and Tracking
+scipy>=1.11.0
+
+# Configuration and Utilities
+pyyaml>=6.0
+tqdm>=4.65.0
+click>=8.1.0
+
+# Development and Testing
+pytest>=7.4.0
+black>=23.7.0
+flake8>=6.0.0
+
+# Windows-specific optimizations
+# These may help with performance on Windows
+psutil>=5.9.0
